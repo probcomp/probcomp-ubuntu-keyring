@@ -12,5 +12,5 @@ all: .PHONY
 
 install: .PHONY
 	$(INSTALL_DIR) $(DESTDIR)$(APT_DIR)/trusted.gpg.d
-	$(APT_KEY) --keyring $(DESTDIR)$(APT_DIR)/trusted.gpg.d/probcomp.asc \
+	$(APT_KEY) --keyring $(DESTDIR)$(APT_DIR)/trusted.gpg.d/probcomp.gpg \
 		add ./probcomp-ubuntu.asc
