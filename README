@@ -15,9 +15,8 @@ reliable source of entropy in a seed file.
 
 * To create a signing key for a new principal:
 
-Pick a unique nickname for the principal, called <principal>, that
-does not appear in any email address of any existing principal.  E.g.,
-you might pick your username.
+Pick a nickname for the principal, called <principal>.  E.g., you
+might pick your username.
 
 1. Pick an email address with <principal> in it.
 
