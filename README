@@ -1,1 +1,90 @@
 Public keys for Ubuntu .deb signature verification
+
+* Before and after generating any keys:
+
+Because GnuPG is stuck in the '90s dark ages of crypto engineering:
+
+% sudo mv /dev/random /dev/random.save
+% sudo ln -s urandom /dev/random
+...generate keys...
+% sudo mv -f /dev/random.save /dev/random
+
+Don't automate this -- only do this on an interactive laptop, or
+figure out what this is about and then automate it differently with a
+reliable source of entropy in a seed file.
+
+* To create a signing key for a new principal:
+
+Pick a unique nickname for the principal, called <principal>, that
+does not appear in any email address of any existing principal.  E.g.,
+you might pick your username.
+
+1. Pick an email address with <principal> in it.
+
+2. Copy template.param to <principal>.param.
+
+3. Edit the lines marked XXXEDITME:
+   - Set the name and email address to reflect the principal.
+   - Set the expiration date.  Should be at least a couple months in
+     the future.
+
+4. Add <principal> to PRINCIPALS in Makefile.  (Keep sorted.)
+
+5. Pick an empty GnuPG home for your private key to live in, e.g. on a
+   USB flash drive mounted at /media/user/userdebsign/20170530.  You
+   can create it with
+
+      % mkdir -m 0700 /media/user/userdebsign/20170530
+      % gpg --homedir /media/user/userdebsign/20170530 --list-keys
+
+6. Do a dry run of key generation:
+
+      % make <principal>.dry GNUPGHOME=/media/user/userdebsign/20170530
+
+   Examine the output.  Tweak until it works.
+
+7. Do a real run of key generation:
+
+      % make <principal>.asc GNUPGHOME=/media/user/userdebsign/20170530
+
+8. Regenerate the keyring:
+
+      % make keyring
+
+9. Commit your changes to Git.
+
+* To retire a signing key:
+
+1. Move <principal>.asc to archive/<principal>/<date>-<keyid32>.asc.
+
+2. Add archive/<principal>/<date>-<keyid32> to PRINCIPALS in Makefile.
+   Remove <principal> if you are not generating a new signing key.
+
+3. Commit your changes to Git.
+
+4. After the signing key has expired, you can remove it.
+
+* To generate a new signing key for an old principal:
+
+Just retire the old signing key and create a new signing key as if for
+a new principal.
+
+* Why is this hard?
+
+We want:
+
+- To keep the key material off our laptop disks.
+
+- Reproducible, consistent instructions for generating keys.
+
+- Procedure for adding a new principal or retiring an old principal.
+
+- Procedure for rotating from an old version of a principal's key to
+  a new version.
+
+- No stupid GnuPG hanging while trying to generate many bytes of data
+  for RSA keys.
+
+We do not currently use hardware crypto tokens.  To be done in a
+future version of this so that we keep the key material off our
+laptops altogether.

@@ -1,0 +1,35 @@
+# By default this does a dry run: you must replace the line `%dry-run'
+# by `%commit' to actually generate a key.
+
+# Master key.  RSA-4096 is a reasonable choice at the paranoid end of
+# the spectrum.  We do not separate a long-term certification key from
+# a medium-term signing key.  Key-Type must come first in this file.
+
+Key-Type: RSA
+Key-Length: 4096
+Key-Usage: sign
+
+# User id.
+
+Name-Real: Taylor R Campbell
+Name-Comment: Ubuntu .deb package-signing key
+Name-Email: riastradh+probcomp-ubuntu@csail.mit.edu
+
+# No passphrase because this parameters file is committed to Git.
+# Store your GnuPG home directory on an encrypted file system instead.
+
+#Passphrase:
+
+# Expiration date.  The primary key is good for a few months to force
+# us to revisit periodically.
+
+Expire-Date: 2017-08-01
+
+# Prefer only sensible ciphers and hashes.
+
+Preferences: AES256,AES,SHA512,SHA256,ZLIB,BZIP2
+
+# By default, do a dry run.  Actually generating the key requires
+# manual intervention.
+
+%dry-run
