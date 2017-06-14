@@ -11,6 +11,7 @@ INSTALL_DIR = install -d
 
 PRINCIPALS = \
 	archive/probcomp-ubuntu/20170329-9A593051 \
+	axch \
 	riastradh \
 	# end of principals
 
