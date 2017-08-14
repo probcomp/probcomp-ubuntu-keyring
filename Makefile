@@ -14,6 +14,7 @@ PRINCIPALS = \
 	axch \
 	aaron.vinson \
 	riastradh \
+  zshelby \
 	# end of principals
 
 all: .PHONY
